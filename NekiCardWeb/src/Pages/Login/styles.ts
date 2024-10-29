@@ -13,13 +13,6 @@ export const LoginContainer = styled.div`
   box-sizing: border-box;
 `;
 
-export const LoginTitle = styled.h2`
-  margin: 0 0 30px;
-  padding: 0;
-  color: #403937;
-  text-align: center;
-`;
-
 export const LoginInput = styled.input`
   width: 100%;
   padding: 10px 0;
@@ -44,23 +37,4 @@ export const ErrorSpam = styled.span`
   color: red;
   background: none;
   border: none;
-`;
-
-export const LoginButton = styled.button`
-  position: relative;
-  display: inline-block;
-  padding: 10px 20px;
-  color: #ea8720;
-  font-size: 16px;
-  transition: 0.4s;
-  margin-top: 30px;
-  background: transparent;
-  border: none;
-  letter-spacing: 4px;
-
-  &:hover {
-    background: #ea8720;
-    color: #fff;
-    border-radius: 5px;
-  }
 `;

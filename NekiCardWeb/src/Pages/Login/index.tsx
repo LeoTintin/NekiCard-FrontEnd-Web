@@ -1,16 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import {
-  LoginContainer,
-  LoginTitle,
-  LoginInput,
-  LoginButton,
-  ErrorSpam,
-} from "./styles";
+import { LoginContainer, LoginInput, ErrorSpam } from "./styles";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { api } from "../../service/api";
+import Button from "../../Components/Button";
+import Tittle from "../../Components/Tittle";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LogInUserFormSchema = z.object({
   nome: z
@@ -57,8 +55,16 @@ export default function Login() {
 
       if (token) {
         localStorage.setItem("token", token);
-        alert("Usuário logado com sucesso!");
-
+        toast.success("Usuario logado com sucesso!", {
+          position: "top-right",
+          autoClose: 1700,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         setOutput(JSON.stringify(data, null, 2));
         navigate("/perfil");
       } else {
@@ -67,9 +73,17 @@ export default function Login() {
         );
       }
     } catch (error) {
-      setErrorMessage(
-        "Erro ao logar usuário. Verifique os dados e tente novamente"
-      );
+      toast.error("Erro ao logar usuário. Credenciais invalidas", {
+        position: "top-right",
+        autoClose: 1700,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      setErrorMessage("");
       console.error(
         "Erro ao logar usuário. Verifique os dados e tente novamente",
         error
@@ -79,8 +93,8 @@ export default function Login() {
 
   return (
     <LoginContainer>
-      <LoginTitle>Login</LoginTitle>
-      <form onSubmit={handleSubmit(logIn)}>
+      <Tittle>Login</Tittle>
+      <form>
         <LoginInput type="text" placeholder="Nome" {...register("nome")} />
         {errors.nome && <ErrorSpam>{errors.nome.message}</ErrorSpam>}
 
@@ -94,9 +108,9 @@ export default function Login() {
         />
         {errors.senha && <ErrorSpam>{errors.senha.message}</ErrorSpam>}
 
-        <LoginButton type="submit" disabled={loading}>
+        <Button onClick={handleSubmit(logIn)}>
           {loading ? "Carregando..." : "Entrar"}
-        </LoginButton>
+        </Button>
       </form>
     </LoginContainer>
   );

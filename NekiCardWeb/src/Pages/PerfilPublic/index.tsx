@@ -3,32 +3,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../service/api";
 import {
   PerfilPublicContainer,
-  PerfilName,
-  PerfilEmail,
-  PerfilSocialName,
-  DataNascimento,
-  TelephoneNumber,
-  RedeSocial,
-  PublicPerfilTitle,
   PerfilPublicContent,
   PerfilPublicHeader,
   PerfilBackButton,
 } from "./styles";
 import { ArrowLeft } from "phosphor-react";
+import PerfilCard from "../../Components/PerfilCard";
+import Tittle from "../../Components/Tittle";
 
 export default function PerfilPublic() {
   const { id } = useParams();
-  const [perfil, setPerfil] = useState(null);
+  const [specificPerfil, setSpecificPerfil] = useState(null);
   const navigate = useNavigate();
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("pt-BR", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    });
-  };
 
   useEffect(() => {
     async function fetchPerfil() {
@@ -39,7 +25,7 @@ export default function PerfilPublic() {
             Authorization: `Bearer ${token}`,
           },
         });
-        setPerfil(response.data);
+        setSpecificPerfil(response.data);
       } catch (error) {
         console.error("Erro ao buscar perfil:", error);
       }
@@ -48,9 +34,17 @@ export default function PerfilPublic() {
     fetchPerfil();
   }, [id]);
 
-  if (!perfil) {
+  if (!specificPerfil) {
     return (
-      <p style={{ textAlign: "center", color: "#ea8720",fontWeight:"bold",fontSize:"1.6rem"}}>
+      <p
+        style={{
+          textAlign: "center",
+          color: "#ea8720",
+          fontWeight: "bold",
+          fontSize: "1.6rem",
+          marginTop: 170,
+        }}
+      >
         Perfil não encontrado...
       </p>
     );
@@ -60,36 +54,16 @@ export default function PerfilPublic() {
     navigate("/perfil");
   };
 
-  const imgSrc = `http://localhost:8080/imagens/${
-    perfil.foto
-  }?_=${new Date().getTime()}`;
-
   return (
     <PerfilPublicContainer>
       <PerfilPublicHeader>
-        <PublicPerfilTitle>Perfil</PublicPerfilTitle>
+        <Tittle>Perfil: {specificPerfil.nome} </Tittle>
         <PerfilBackButton onClick={handleBackButtonClick}>
           <ArrowLeft size={32} />
         </PerfilBackButton>
       </PerfilPublicHeader>
       <PerfilPublicContent>
-        <img src={imgSrc} alt="Foto de Perfil" />
-        <PerfilEmail>{perfil.email}</PerfilEmail>
-        <PerfilName>{perfil.nome}</PerfilName>
-        <PerfilSocialName>
-          {perfil.nomeSocial || "Nome social não informado"}
-        </PerfilSocialName>
-        <DataNascimento>
-          {perfil.dataNascimento
-            ? formatDate(perfil.dataNascimento)
-            : "Data de nascimento não informada"}
-        </DataNascimento>
-        <TelephoneNumber>
-          {perfil.telefone || "Telefone não informado"}
-        </TelephoneNumber>
-        <RedeSocial>
-          {perfil.redeSocial || "Rede social não informada"}
-        </RedeSocial>
+        <PerfilCard perfil={specificPerfil} />
       </PerfilPublicContent>
     </PerfilPublicContainer>
   );

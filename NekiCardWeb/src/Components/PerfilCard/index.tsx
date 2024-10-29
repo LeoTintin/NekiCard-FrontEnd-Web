@@ -9,6 +9,7 @@ import {
   FileInputContainer,
   HiddenFileInput,
   IconButton,
+  ImagePreview,
   ModalBody,
   ModalContent,
   ModalFooter,
@@ -17,16 +18,20 @@ import {
   PerfilButton,
   PerfilCardContainer,
   PerfilEmail,
+  PerfilImage,
   PerfilName,
   PerfilSocialName,
   RedeSocial,
   TelephoneNumber,
 } from "./styles";
+import Button from "../Button";
+import { toast } from "react-toastify";
 
-export default function PerfilCard({ perfil, onDelete }) {
+export default function PerfilCard({ perfil, refetch }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editedPerfil, setEditedPerfil] = useState(perfil);
   const [foto, setFoto] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const formatDate = (dateString) => {
     if (!dateString) return "Data não informada";
@@ -34,6 +39,18 @@ export default function PerfilCard({ perfil, onDelete }) {
     const [year, month, day] = datePart.split("-");
     return `${day}/${month}/${year}`;
   };
+
+  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0] || null;
+    setFoto(file);
+
+    if (file) {
+      const fileUrl = URL.createObjectURL(file);
+      setPreviewUrl(fileUrl);
+    } else {
+      setPreviewUrl(null);
+    }
+  }
 
   const handleDelete = async (id) => {
     const confirmed = window.confirm(
@@ -50,14 +67,41 @@ export default function PerfilCard({ perfil, onDelete }) {
           },
         });
 
-        alert("Perfil excluído com sucesso!");
-        onDelete(id);
+        toast.success("Perfil excluido com sucesso!", {
+          position: "top-right",
+          autoClose: 1700,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        refetch();
       } catch (error) {
         console.error("Erro ao deletar perfil!", error);
-        alert("Erro ao deletar perfil!");
+        toast.error("Erro ao deletar perfil", {
+          position: "top-right",
+          autoClose: 1700,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       }
     } else {
-      alert("A operação de exclusão foi cancelada.");
+      toast("Exclusão cancelada", {
+        position: "top-right",
+        autoClose: 1700,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
 
@@ -80,7 +124,7 @@ export default function PerfilCard({ perfil, onDelete }) {
       formData.append("dataNascimento", editedPerfil.dataNascimento);
 
       if (foto) {
-        formData.append("arquivo", foto);
+        formData.append("foto", foto);
       }
 
       const response = await api.put(`/perfil/${editedPerfil.id}`, formData, {
@@ -91,11 +135,30 @@ export default function PerfilCard({ perfil, onDelete }) {
       });
 
       setEditedPerfil(response.data);
-      alert("Perfil atualizado com sucesso!");
+      toast.success("Perfil atualizado com sucesso!.", {
+        position: "top-right",
+        autoClose: 1700,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       setIsModalOpen(false);
+      refetch();
     } catch (error) {
       console.error("Erro ao atualizar perfil!", error);
-      alert("Erro ao atualizar perfil!");
+      toast.error("Erro ao atualizar perfil.", {
+        position: "top-right",
+        autoClose: 1700,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
 
@@ -105,7 +168,7 @@ export default function PerfilCard({ perfil, onDelete }) {
 
   return (
     <PerfilCardContainer>
-      <img src={imgSrc} alt="Foto de Perfil" />
+      <PerfilImage src={imgSrc} alt="Foto de Perfil" />
       <PerfilEmail>{perfil.email}</PerfilEmail>
       <PerfilName>{perfil.nome}</PerfilName>
       <PerfilSocialName>
@@ -202,22 +265,25 @@ export default function PerfilCard({ perfil, onDelete }) {
                   type="file"
                   id="file"
                   accept="image/*"
-                  onChange={(e) => {
-                    if (e.target.files && e.target.files.length > 0) {
-                      setFoto(e.target.files[0]);
-                    }
-                  }}
+                  onChange={handleFileChange}
                 />
                 <IconButton
                   onClick={() => document.getElementById("file").click()}
                 >
-                  <Camera size={32} color="#ea8720" />
+                  {previewUrl ? (
+                    <ImagePreview
+                      src={previewUrl}
+                      alt="Pré-visualização da foto"
+                    />
+                  ) : (
+                    <Camera size={32} color="#ea8720" />
+                  )}
                 </IconButton>
+                <ModalFooter>
+                  <Button onClick={handleEdit}>Salvar</Button>
+                </ModalFooter>
               </FileInputContainer>
             </ModalBody>
-            <ModalFooter>
-              <button onClick={handleEdit}>Salvar</button>
-            </ModalFooter>
           </ModalContent>
         </ModalOverlay>
       )}

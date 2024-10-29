@@ -12,13 +12,13 @@ export const PerfilCardContainer = styled.div`
   align-items: center;
   text-align: center;
   border: solid 1px #ea8720;
+`;
 
-  img {
-    width: 7.5rem;
-    height: 7.5rem;
-    margin-top: 1.25rem;
-    border-radius: 8px;
-  }
+export const PerfilImage = styled.img`
+  width: 7.5rem;
+  height: 7.5rem;
+  margin-top: 1.25rem;
+  border-radius: 8px;
 `;
 
 export const PerfilEmail = styled.div`
@@ -201,17 +201,27 @@ export const ModalFooter = styled.div`
   }
 `;
 export const FileInputContainer = styled.div`
-  position: relative;
-  display: inline-block;
-`;
-
-export const HiddenFileInput = styled.input`
-  display: none;
+  display: flex;
+  justify-content: space-between;
 `;
 
 export const IconButton = styled.button`
   background-color: transparent;
+  padding: 0;
+  width: 50px;
+  height: 50px;
   border: none;
   display: flex;
   align-items: center;
+`;
+
+export const ImagePreview = styled.img`
+  height: 100%;
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #ea8720;
+`;
+
+export const HiddenFileInput = styled.input`
+  display: none;
 `;

@@ -13,12 +13,6 @@ export const ResgisterContainer = styled.div`
   box-sizing: border-box;
 `;
 
-export const ResgisterTitle = styled.h2`
-  padding: 0;
-  color: #ea8720;
-  text-align: center;
-`;
-
 export const NameFormInput = styled.div`
   display: flex;
   flex-direction: row;
@@ -58,7 +52,7 @@ export const RegisterFooter = styled.div`
   justify-content: flex-end;
   gap: 1rem;
 
-  button {
+  /* button {
     padding: 10px 20px;
     color: #ea8720;
     font-size: 16px;
@@ -73,7 +67,7 @@ export const RegisterFooter = styled.div`
       color: #fff;
       border-radius: 5px;
     }
-  }
+  } */
 `;
 
 export const ErrorSpam = styled.span`
@@ -83,28 +77,50 @@ export const ErrorSpam = styled.span`
 `;
 
 export const FileInputContainer = styled.div`
-  position: relative;
-  display: inline-block;
+  display: flex;
+  justify-content: space-between;
 `;
 
 export const HiddenFileInput = styled.input`
   display: none;
 `;
 
-export const ImagePreview = styled.img`
-  width: 100px;
-  height: 100px;
-  margin-top: 10px;
-  border-radius: 8px;
-  border: 1.5px solid #ea8720;
-  margin-left: 10rem;
-`;
-
 export const IconButton = styled.button`
   background-color: transparent;
   border: none;
-  padding: 10px;
+  padding: 0;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const ImagePreview = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 1.5px solid #ea8720;
+  border-radius: 6px;
+`;
+
+export const RegisterButton = styled.button`
+  padding: 5px 20px 5px 20px;
+  color: #ea8720;
+  font-size: 1rem;
+  transition: 0.4s;
+  background: transparent;
+  border: none;
+  letter-spacing: 0.25em;
+
+  &:hover {
+    background: #ea8720;
+    color: #fff;
+    border-radius: 5px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.875rem;
+    padding: 8px 16px;
+  }
 `;

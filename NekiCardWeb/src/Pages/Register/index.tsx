@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import {
   ResgisterContainer,
-  ResgisterTitle,
   ResgisterInput,
   NameFormInput,
   NameResgisterInput,
@@ -11,6 +10,7 @@ import {
   IconButton,
   RegisterFooter,
   ImagePreview,
+  RegisterButton,
 } from "./styles";
 import { z } from "zod";
 import { useState } from "react";
@@ -18,6 +18,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { api } from "../../service/api";
 import { Camera } from "phosphor-react";
+import Tittle from "../../Components/Tittle";
+import { toast } from "react-toastify";
 const CreateUserFormSchema = z.object({
   nome: z
     .string()
@@ -46,7 +48,7 @@ const CreateUserFormSchema = z.object({
   nomeSocial: z.string().optional(),
   telefone: z.string().optional(),
   redeSocial: z.string().optional(),
-  arquivo: z.instanceof(File).optional(),
+  foto: z.instanceof(File).optional(),
 });
 
 type CreateUserFormData = z.infer<typeof CreateUserFormSchema>;
@@ -89,7 +91,7 @@ export default function Register() {
     formData.append("redeSocial", data.redeSocial || "");
 
     if (selectedFile) {
-      formData.append("arquivo", selectedFile);
+      formData.append("foto", selectedFile);
     }
 
     const token = localStorage.getItem("token");
@@ -100,15 +102,30 @@ export default function Register() {
         },
       })
       .then((response) => {
-        alert("Perfil criado com sucesso!");
+        toast.success("Perfil criado com sucesso!", {
+          position: "top-right",
+          autoClose: 1700,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         navigate("/perfil");
       })
       .catch((error) => {
         console.error(error);
-        alert(
-          "Erro ao criar perfil: " +
-            (error.response?.data?.message || error.message)
-        );
+        toast.error("Erro ao criar usuário. Credenciais invalidas", {
+          position: "top-right",
+          autoClose: 1700,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       })
       .finally(() => {
         setLoading(false);
@@ -117,7 +134,7 @@ export default function Register() {
 
   return (
     <ResgisterContainer>
-      <ResgisterTitle>Novo Perfil</ResgisterTitle>
+      <Tittle>Novo Perfil</Tittle>
       <form onSubmit={handleSubmit(criarPerfil)}>
         <NameFormInput>
           <NameResgisterInput
@@ -170,19 +187,18 @@ export default function Register() {
             type="button"
             onClick={() => document.getElementById("file").click()}
           >
-            <Camera size={32} color="#ea8720" />
+            {previewUrl ? (
+              <ImagePreview src={previewUrl} alt="Pré-visualização da foto" />
+            ) : (
+              <Camera size={32} color="#ea8720" />
+            )}
           </IconButton>
+          <RegisterFooter>
+            <RegisterButton type="submit" disabled={loading}>
+              {loading ? "Carregando..." : "Criar Perfil"}
+            </RegisterButton>
+          </RegisterFooter>
         </FileInputContainer>
-
-        {previewUrl && (
-          <ImagePreview src={previewUrl} alt="Pré-visualização do arquivo" />
-        )}
-
-        <RegisterFooter>
-          <button type="submit" disabled={loading}>
-            {loading ? "Carregando..." : "Criar Perfil"}
-          </button>
-        </RegisterFooter>
       </form>
     </ResgisterContainer>
   );
