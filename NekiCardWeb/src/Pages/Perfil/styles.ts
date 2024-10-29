@@ -10,11 +10,11 @@ export const HomeContainer = styled.section`
 export const PerfilTitle = styled.h1`
  color: #ea8720;
  font-weight: 700;
- margin-top: 2rem;
+ margin-top: 1.625rem;
 `
 
 export const PerfilList = styled.div`
-  margin-top: 5rem;
+  margin-top: 3rem;
   margin-left: 8rem;
   width: 100%;
   display: flex;

@@ -16,7 +16,7 @@ export const LoginContainer = styled.div`
 export const LoginTitle = styled.h2`
   margin: 0 0 30px;
   padding: 0;
-  color: #ea8720;
+  color: #403937;
   text-align: center;
 `;
 
@@ -28,21 +28,23 @@ export const LoginInput = styled.input`
   margin-bottom: 30px;
   border: none;
   background: transparent;
-  border-bottom: 1px solid #deddc2;;
+  border-bottom: 1px solid #deddc2;
   outline: none;
 
   &:focus {
     border-bottom: 1px solid #ea8720;
   }
+
+  &::placeholder {
+    color: #403937;
+  }
 `;
 
-
 export const ErrorSpam = styled.span`
-color: red;
-background: none;
-border: none;
-`
-
+  color: red;
+  background: none;
+  border: none;
+`;
 
 export const LoginButton = styled.button`
   position: relative;
@@ -54,7 +56,6 @@ export const LoginButton = styled.button`
   margin-top: 30px;
   background: transparent;
   border: none;
-  cursor: pointer;
   letter-spacing: 4px;
 
   &:hover {

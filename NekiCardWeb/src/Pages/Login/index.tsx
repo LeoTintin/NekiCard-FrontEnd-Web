@@ -10,6 +10,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { api } from "../../service/api";
 
 const LogInUserFormSchema = z.object({
   nome: z
@@ -37,6 +38,7 @@ type LogInUserFormData = z.infer<typeof LogInUserFormSchema>;
 export default function Login() {
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const {
@@ -47,15 +49,32 @@ export default function Login() {
     resolver: zodResolver(LogInUserFormSchema),
   });
 
-  function logIn(data: LogInUserFormData) {
-    setLoading(true);
-    setOutput(JSON.stringify(data, null, 2));
+  async function logIn(data: LogInUserFormData) {
+    try {
+      const response = await api.post("/auth/login", data);
 
-    setTimeout(() => {
-      alert("Usuário logado com sucesso!");
-      navigate("/home");
-      setLoading(false);
-    }, 1000); // Simulando um delay
+      const token = response.data.token;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        alert("Usuário logado com sucesso!");
+
+        setOutput(JSON.stringify(data, null, 2));
+        navigate("/perfil");
+      } else {
+        setErrorMessage(
+          "Token não recebido. Verifique a resposta do servidor."
+        );
+      }
+    } catch (error) {
+      setErrorMessage(
+        "Erro ao logar usuário. Verifique os dados e tente novamente"
+      );
+      console.error(
+        "Erro ao logar usuário. Verifique os dados e tente novamente",
+        error
+      );
+    }
   }
 
   return (
@@ -68,7 +87,11 @@ export default function Login() {
         <LoginInput type="text" placeholder="Email" {...register("email")} />
         {errors.email && <ErrorSpam>{errors.email.message}</ErrorSpam>}
 
-        <LoginInput type="password" placeholder="Senha" {...register("senha")} />
+        <LoginInput
+          type="password"
+          placeholder="Senha"
+          {...register("senha")}
+        />
         {errors.senha && <ErrorSpam>{errors.senha.message}</ErrorSpam>}
 
         <LoginButton type="submit" disabled={loading}>

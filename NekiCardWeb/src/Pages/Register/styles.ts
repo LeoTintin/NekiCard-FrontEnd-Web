@@ -53,23 +53,26 @@ export const ResgisterInput = styled.input`
   }
 `;
 
-export const RegisterButton = styled.button`
-  position: relative;
-  display: inline-block;
-  padding: 10px 20px;
-  color: #ea8720;
-  font-size: 16px;
-  transition: 0.4s;
-  margin-top: 30px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  letter-spacing: 4px;
+export const RegisterFooter = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
 
-  &:hover {
-    background: #ea8720;
-    color: #fff;
-    border-radius: 5px;
+  button {
+    padding: 10px 20px;
+    color: #ea8720;
+    font-size: 16px;
+    transition: 0.4s;
+    margin-top: 30px;
+    background: transparent;
+    border: none;
+    letter-spacing: 4px;
+
+    &:hover {
+      background: #ea8720;
+      color: #fff;
+      border-radius: 5px;
+    }
   }
 `;
 
@@ -77,4 +80,31 @@ export const ErrorSpam = styled.span`
   color: red;
   background: none;
   border: none;
+`;
+
+export const FileInputContainer = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+export const HiddenFileInput = styled.input`
+  display: none;
+`;
+
+export const ImagePreview = styled.img`
+  width: 100px;
+  height: 100px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1.5px solid #ea8720;
+  margin-left: 10rem;
+`;
+
+export const IconButton = styled.button`
+  background-color: transparent;
+  border: none;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
