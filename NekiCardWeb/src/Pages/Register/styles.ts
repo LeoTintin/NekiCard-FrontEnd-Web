@@ -51,23 +51,6 @@ export const RegisterFooter = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-
-  /* button {
-    padding: 10px 20px;
-    color: #ea8720;
-    font-size: 16px;
-    transition: 0.4s;
-    margin-top: 30px;
-    background: transparent;
-    border: none;
-    letter-spacing: 4px;
-
-    &:hover {
-      background: #ea8720;
-      color: #fff;
-      border-radius: 5px;
-    }
-  } */
 `;
 
 export const ErrorSpam = styled.span`

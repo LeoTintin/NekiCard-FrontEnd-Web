@@ -26,7 +26,13 @@ const LogInUserFormSchema = z.object({
     .string()
     .nonempty("E-mail obrigatório")
     .email("Formato de e-mail inválido!")
-    .endsWith("@neki-it.com.br", "O e-mail deve terminar com @neki-it.com.br"),
+    .refine(
+      (email) =>
+        email.endsWith("@neki-it.com.br") || email.endsWith("@neki.com.br"),
+      {
+        message: "O e-mail deve terminar com @neki-it.com.br ou @neki.com.br",
+      }
+    ),
 
   senha: z.string().min(6, "Senha curta, insira pelo menos 6 caracteres!"),
 });
@@ -58,12 +64,11 @@ export default function Login() {
         toast.success("Usuario logado com sucesso!", {
           position: "top-right",
           autoClose: 1700,
-          hideProgressBar: true,
+          hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          progress: undefined,
-          theme: "dark",
+          theme: "light",
         });
         setOutput(JSON.stringify(data, null, 2));
         navigate("/perfil");

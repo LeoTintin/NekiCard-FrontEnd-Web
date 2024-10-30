@@ -14,6 +14,7 @@ import Tittle from "../../Components/Tittle";
 export default function PerfilPublic() {
   const { id } = useParams();
   const [specificPerfil, setSpecificPerfil] = useState(null);
+  const [refresh, setRefresh] = useState(false)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,6 +51,8 @@ export default function PerfilPublic() {
     );
   }
 
+  const refetch = () => setRefresh((prev) => !prev);
+
   const handleBackButtonClick = () => {
     navigate("/perfil");
   };
@@ -63,7 +66,7 @@ export default function PerfilPublic() {
         </PerfilBackButton>
       </PerfilPublicHeader>
       <PerfilPublicContent>
-        <PerfilCard perfil={specificPerfil} />
+        <PerfilCard perfil={specificPerfil} refetch={refetch} />
       </PerfilPublicContent>
     </PerfilPublicContainer>
   );

@@ -18,20 +18,25 @@ import {
   PerfilButton,
   PerfilCardContainer,
   PerfilEmail,
+  PerfilId,
   PerfilImage,
+  PerfilImageButton,
   PerfilName,
+  PerfilRedirectButton,
   PerfilSocialName,
   RedeSocial,
   TelephoneNumber,
 } from "./styles";
 import Button from "../Button";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function PerfilCard({ perfil, refetch }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editedPerfil, setEditedPerfil] = useState(perfil);
   const [foto, setFoto] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const navigation = useNavigate();
 
   const formatDate = (dateString) => {
     if (!dateString) return "Data não informada";
@@ -168,7 +173,12 @@ export default function PerfilCard({ perfil, refetch }) {
 
   return (
     <PerfilCardContainer>
-      <PerfilImage src={imgSrc} alt="Foto de Perfil" />
+      <PerfilRedirectButton onClick={() => navigation(`/perfil/${perfil.id}`)}>
+        <PerfilId>{perfil.id} </PerfilId>
+      </PerfilRedirectButton>
+      <PerfilRedirectButton onClick={() => navigation(`/perfil/${perfil.id}`)}>
+        <PerfilImage src={imgSrc} alt="Foto de Perfil" />
+      </PerfilRedirectButton>
       <PerfilEmail>{perfil.email}</PerfilEmail>
       <PerfilName>{perfil.nome}</PerfilName>
       <PerfilSocialName>

@@ -4,7 +4,7 @@ export const PerfilCardContainer = styled.div`
   width: 100%;
   max-width: 15rem;
   background: #ece8cb;
-  border-radius: 6px 36px 6px 36px;
+  border-radius: 6px 36px 36px 36px;
   padding: 1.25rem;
   padding-top: 0;
   display: flex;
@@ -13,6 +13,23 @@ export const PerfilCardContainer = styled.div`
   text-align: center;
   border: solid 1px #ea8720;
 `;
+
+export const PerfilId = styled.p`
+  color: #ece8cb;
+  background-color: #ea8720;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 8px;
+  border-radius: 50%;
+  margin-top: -0.7rem;
+  margin-right: 17.6rem;
+  z-index: 1;
+`;
+
+export const PerfilRedirectButton = styled.button`
+background: none;
+border: none;
+`
 
 export const PerfilImage = styled.img`
   width: 7.5rem;

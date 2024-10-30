@@ -35,7 +35,13 @@ const CreateUserFormSchema = z.object({
     .string()
     .nonempty("E-mail obrigatório!")
     .email("Formato de e-mail inválido!")
-    .endsWith("@neki-it.com.br", "O e-mail deve terminar com @neki-it.com.br"),
+    .refine(
+      (email) =>
+        email.endsWith("@neki-it.com.br") || email.endsWith("@neki.com.br"),
+      {
+        message: "O e-mail deve terminar com @neki-it.com.br ou @neki.com.br",
+      }
+    ),
   birthDate: z.string().refine(
     (value) => {
       const date = new Date(value);

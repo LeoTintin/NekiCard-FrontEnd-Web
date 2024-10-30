@@ -30,7 +30,6 @@ export const SearchInput = styled.input`
 `;
 
 export const PerfilList = styled.div`
-  margin-top: 3rem;
   margin-left: 7%;
   width: 90%;
   display: flex;

@@ -11,13 +11,13 @@ export const PerfilPublicContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 5rem;
+  margin-top: 2rem;
   text-align: center;
 
   img {
     width: 10rem;
     height: 10rem;
-    margin-top: 1.25rem;
+    margin-top: 1rem;
     border-radius: 8px;
   }
 `;
