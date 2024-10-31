@@ -5,7 +5,6 @@ import {
   ButtonsContainer,
   CloseButton,
   DataNascimento,
-  EditButton,
   FileInputContainer,
   HiddenFileInput,
   IconButton,
@@ -20,7 +19,6 @@ import {
   PerfilEmail,
   PerfilId,
   PerfilImage,
-  PerfilImageButton,
   PerfilName,
   PerfilRedirectButton,
   PerfilSocialName,
@@ -196,9 +194,9 @@ export default function PerfilCard({ perfil, refetch }) {
         {perfil.redeSocial || "Rede social não informada"}
       </RedeSocial>
       <ButtonsContainer>
-        <EditButton onClick={() => setIsModalOpen(true)}>
+        <PerfilButton onClick={() => setIsModalOpen(true)}>
           <NotePencil size={22} />
-        </EditButton>
+        </PerfilButton>
         <PerfilButton onClick={() => handleDelete(perfil.id)}>
           <Trash size={22} />
         </PerfilButton>
@@ -286,7 +284,7 @@ export default function PerfilCard({ perfil, refetch }) {
                       alt="Pré-visualização da foto"
                     />
                   ) : (
-                    <Camera size={32} color="#ea8720" />
+                    <Camera size={32} color="#349c98" />
                   )}
                 </IconButton>
                 <ModalFooter>

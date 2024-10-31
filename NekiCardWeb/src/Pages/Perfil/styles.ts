@@ -8,6 +8,35 @@ export const HomeContainer = styled.section`
   padding: 0 2%;
 `;
 
+export const UserNotFound = styled.p`
+  width: 100%;
+  max-width: 70rem;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+export const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Loading = styled.div`
+margin-top: 15rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  border: 4px solid;
+  border-color: #349c98 #349c98 transparent;
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+`;
+
 export const SearchInput = styled.input`
   padding: 10px 0;
   font-size: 16px;
@@ -15,13 +44,13 @@ export const SearchInput = styled.input`
   margin-bottom: 30px;
   border: none;
   background: transparent;
-  border-bottom: 1px solid #deddc2;
+  border-bottom: 1px solid #9d9c9a;
   outline: none;
   font-weight: 700;
   letter-spacing: 1px;
 
   &:focus {
-    border-bottom: 1px solid #ea8720;
+    border-bottom: 1px solid #349c98;
   }
 
   &::placeholder {

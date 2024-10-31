@@ -7,6 +7,21 @@ export const PerfilPublicContainer = styled.div`
   margin-right: auto;
 `;
 
+export const ProfileNotFoundContainer = styled.div`
+  width: 100%;
+  max-width: 70rem;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+export const ProfileNotFound = styled.p`
+  text-align: center;
+  color: #349c98;
+  font-weight: bold;
+  font-size: 1.6rem;
+  margin-top: 10rem;
+`;
+
 export const PerfilPublicContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -27,17 +42,26 @@ export const PerfilPublicHeader = styled.div`
   justify-content: space-between;
 `;
 
+export const Name = styled.h2`
+  color: #403937;
+  font-weight: 700;
+  margin-top: 1.7rem;
+  margin-right: auto;
+  margin-left: 1rem;
+`;
+
 export const PerfilBackButton = styled.button`
   background-color: transparent;
-  color: #ea8720;
+  color: #349c98;
   border: none;
   border-radius: 8px;
   margin-top: 1rem;
   transition: 0.3s;
-  padding: 8px;
+  padding: 0px 11px 0px 11px;
+  margin-left: auto;
 
   &:hover {
-    background-color: #ea8720;
+    background-color: #349c98;
     color: #fff;
     border-radius: 8px;
   }

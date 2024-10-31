@@ -1,5 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { LoginContainer, LoginInput, ErrorSpam } from "./styles";
+import {
+  LoginContainer,
+  LoginInput,
+  ErrorSpam,
+  LoginWrapper,
+  InputIcon,
+} from "./styles";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,22 +15,12 @@ import Button from "../../Components/Button";
 import Tittle from "../../Components/Tittle";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { EnvelopeSimple, Eye, EyeClosed } from "phosphor-react";
 
 const LogInUserFormSchema = z.object({
-  nome: z
-    .string()
-    .nonempty("Nome é obrigatório!")
-    .transform((nome) => {
-      return nome
-        .trim()
-        .split(" ")
-        .map((word) => word[0].toLocaleUpperCase() + word.substring(1))
-        .join(" ");
-    }),
-
   email: z
     .string()
-    .nonempty("E-mail obrigatório")
+    .nonempty("E-mail é obrigatório!")
     .email("Formato de e-mail inválido!")
     .refine(
       (email) =>
@@ -43,6 +39,7 @@ export default function Login() {
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -96,21 +93,33 @@ export default function Login() {
     }
   }
 
+  const toggleShowPassword = () => {
+    setShowPassword((prevState) => !prevState);
+  };
+
   return (
     <LoginContainer>
       <Tittle>Login</Tittle>
       <form>
-        <LoginInput type="text" placeholder="Nome" {...register("nome")} />
-        {errors.nome && <ErrorSpam>{errors.nome.message}</ErrorSpam>}
+        <LoginWrapper>
+          <LoginInput type="text" placeholder="Email" {...register("email")} />
+          <InputIcon>
+            <EnvelopeSimple size={24} />
+          </InputIcon>
 
-        <LoginInput type="text" placeholder="Email" {...register("email")} />
-        {errors.email && <ErrorSpam>{errors.email.message}</ErrorSpam>}
+          {errors.email && <ErrorSpam>{errors.email.message}</ErrorSpam>}
+        </LoginWrapper>
 
-        <LoginInput
-          type="password"
-          placeholder="Senha"
-          {...register("senha")}
-        />
+        <LoginWrapper>
+          <LoginInput
+            type={showPassword ? "text" : "password"}
+            placeholder="Senha"
+            {...register("senha")}
+          />
+          <InputIcon onClick={toggleShowPassword}>
+            {showPassword ? <EyeClosed size={24} /> : <Eye size={24} />}
+          </InputIcon>
+        </LoginWrapper>
         {errors.senha && <ErrorSpam>{errors.senha.message}</ErrorSpam>}
 
         <Button onClick={handleSubmit(logIn)}>

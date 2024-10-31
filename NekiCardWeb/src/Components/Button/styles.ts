@@ -2,17 +2,17 @@ import styled from "styled-components";
 
 export const ComponentButton = styled.button`
   padding: 10px 20px;
-  color: #ea8720;
+  color: #349c98;
   font-size: 1rem;
   transition: 0.4s;
   margin-top: 2rem;
   background: transparent;
   border: none;
-  cursor: pointer;
+  border-radius: 5px;
   letter-spacing: 0.25em;
 
   &:hover {
-    background: #ea8720;
+    background: #349c98;
     color: #fff;
     border-radius: 5px;
   }

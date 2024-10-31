@@ -11,13 +11,15 @@ import {
   RegisterFooter,
   ImagePreview,
   RegisterButton,
+  RegisterHeader,
+  GoBackButton,
 } from "./styles";
 import { z } from "zod";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { api } from "../../service/api";
-import { Camera } from "phosphor-react";
+import { ArrowLeft, Camera } from "phosphor-react";
 import Tittle from "../../Components/Tittle";
 import { toast } from "react-toastify";
 const CreateUserFormSchema = z.object({
@@ -54,7 +56,6 @@ const CreateUserFormSchema = z.object({
   nomeSocial: z.string().optional(),
   telefone: z.string().optional(),
   redeSocial: z.string().optional(),
-  foto: z.instanceof(File).optional(),
 });
 
 type CreateUserFormData = z.infer<typeof CreateUserFormSchema>;
@@ -100,6 +101,19 @@ export default function Register() {
       formData.append("foto", selectedFile);
     }
 
+    if (!selectedFile) {
+      toast.error("Foto de perfil é obrigatorio", {
+        position: "top-right",
+        autoClose: 1700,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+
     const token = localStorage.getItem("token");
     api
       .post("/perfil", formData, {
@@ -138,9 +152,18 @@ export default function Register() {
       });
   }
 
+  const handleBackButtonClick = () => {
+    navigate("/perfil");
+  };
+
   return (
     <ResgisterContainer>
-      <Tittle>Novo Perfil</Tittle>
+      <RegisterHeader>
+        <Tittle>Novo Perfil</Tittle>
+        <GoBackButton onClick={handleBackButtonClick}>
+          <ArrowLeft size={32} />
+        </GoBackButton>
+      </RegisterHeader>
       <form onSubmit={handleSubmit(criarPerfil)}>
         <NameFormInput>
           <NameResgisterInput
@@ -196,7 +219,7 @@ export default function Register() {
             {previewUrl ? (
               <ImagePreview src={previewUrl} alt="Pré-visualização da foto" />
             ) : (
-              <Camera size={32} color="#ea8720" />
+              <Camera size={32} color="#349c98" />
             )}
           </IconButton>
           <RegisterFooter>

@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const PerfilCardContainer = styled.div`
   width: 100%;
   max-width: 15rem;
-  background: #ece8cb;
+  background: #fff;
   border-radius: 6px 36px 36px 36px;
   padding: 1.25rem;
   padding-top: 0;
@@ -11,25 +11,26 @@ export const PerfilCardContainer = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
-  border: solid 1px #ea8720;
+  border: solid 1px #349c98;
 `;
 
 export const PerfilId = styled.p`
-  color: #ece8cb;
-  background-color: #ea8720;
+  color: #349c98;
+  background-color: #fff;
+  border: solid 1px #349c98;
   font-size: 13px;
   font-weight: bold;
-  padding: 8px;
+  padding: 10px;
   border-radius: 50%;
-  margin-top: -0.7rem;
-  margin-right: 17.6rem;
+  margin-top: -0.8rem;
+  margin-right: 17rem;
   z-index: 1;
 `;
 
 export const PerfilRedirectButton = styled.button`
-background: none;
-border: none;
-`
+  background: none;
+  border: none;
+`;
 
 export const PerfilImage = styled.img`
   width: 7.5rem;
@@ -46,8 +47,8 @@ export const PerfilEmail = styled.div`
   margin-top: 0.75rem;
   margin-bottom: -0.5rem;
   flex-wrap: wrap;
-  background: #ea8720;
-  color: #ece8cb;
+  background: #349c98;
+  color: #fff;
   font-size: 0.7rem;
   padding: 0.25rem 0.5rem;
   border-radius: 999px;
@@ -97,7 +98,7 @@ export const RedeSocial = styled.a`
   margin: 1;
   word-wrap: break-word;
   max-width: 100%;
-  color: #ea8720;
+  color: #349c98;
   cursor: pointer;
 `;
 
@@ -108,21 +109,17 @@ export const ButtonsContainer = styled.div`
   width: 100%;
 `;
 
-export const EditButton = styled.button`
-  background: transparent;
-  border: none;
-  color: #ea8720;
-`;
 export const PerfilButton = styled.button`
   background: transparent;
   border: none;
   border-radius: 8px;
-  color: #ea8720;
+  color: #349c98;
   transition: 0.3s;
-  padding: 0.3rem;
+  padding: 0.3rem 0.4rem 0.2rem 0.4rem;
+
   &:hover {
-    background-color: #ea8720;
-    color: #ece8cb;
+    background-color: #349c98;
+    color: #fff;
     border-radius: 8px;
   }
 `;
@@ -142,7 +139,7 @@ export const ModalOverlay = styled.div`
 
 export const ModalContent = styled.div`
   height: 85%;
-  background: #ece8cb;
+  background: #fff;
   border-radius: 10px;
   padding: 2rem;
   width: 90%;
@@ -167,7 +164,7 @@ export const ModalHeader = styled.div`
 export const CloseButton = styled.button`
   background: transparent;
   border: none;
-  color: #ea8720;
+  color: #349c98;
   font-size: 1.5rem;
 `;
 
@@ -179,14 +176,14 @@ export const ModalBody = styled.div`
   input {
     padding: 0.5rem;
     border: none;
-    border-bottom: 1px solid #deddc2;
+    border-bottom: 1px solid #9d9c9a;
     font-size: 1rem;
-    color: #ea8720;
+    color: #349c98;
     background-color: transparent;
 
     &:focus {
       outline: none;
-      border-color: #ea8720;
+      border-color: #349c98;
     }
 
     &::placeholder {
@@ -202,7 +199,7 @@ export const ModalFooter = styled.div`
 
   button {
     padding: 10px 20px;
-    color: #ea8720;
+    color: #349c98;
     font-size: 16px;
     transition: 0.4s;
     margin-top: 30px;
@@ -211,7 +208,7 @@ export const ModalFooter = styled.div`
     letter-spacing: 4px;
 
     &:hover {
-      background: #ea8720;
+      background: #349c98;
       color: #fff;
       border-radius: 5px;
     }
@@ -236,7 +233,7 @@ export const ImagePreview = styled.img`
   height: 100%;
   width: 100%;
   border-radius: 6px;
-  border: 1px solid #ea8720;
+  border: 1px solid #349c98;
 `;
 
 export const HiddenFileInput = styled.input`

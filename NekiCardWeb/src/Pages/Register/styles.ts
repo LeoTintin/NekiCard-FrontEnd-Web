@@ -7,10 +7,29 @@ export const ResgisterContainer = styled.div`
   width: 400px;
   padding: 40px;
   transform: translate(-50%, -50%);
-  background: #ece8cb;
+  background: #fff;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   box-sizing: border-box;
+`;
+
+export const RegisterHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+`;
+
+export const GoBackButton = styled.button`
+  background-color: transparent;
+  color: #349c98;
+  border: none;
+  border-radius: 8px;
+  margin-top: 0.625rem;
+  transition: 0.3s;
+  margin-left: auto;
+  padding: -10px 0 -10px 0;
+
+ 
 `;
 
 export const NameFormInput = styled.div`
@@ -23,27 +42,31 @@ export const NameResgisterInput = styled.input`
   width: 100%;
   padding: 10px 0;
   font-size: 16px;
-  color: #ea8720;
+  color: #349c98;
   margin-bottom: 20px;
   border: none;
   background: transparent;
-  border-bottom: 1px solid #deddc2;
+  border-bottom: 1px solid #9d9c9a;
   outline: none;
+
+  &:focus {
+    border-bottom: 1px solid #349c98;
+  }
 `;
 
 export const ResgisterInput = styled.input`
   width: 100%;
   padding: 10px 0;
   font-size: 16px;
-  color: #ea8720;
+  color: #349c98;
   margin-bottom: 20px;
   border: none;
   background: transparent;
-  border-bottom: 1px solid #deddc2;
+  border-bottom: 1px solid #9d9c9a;
   outline: none;
 
   &:focus {
-    border-bottom: 1px solid #ea8720;
+    border-bottom: 1px solid #349c98;
   }
 `;
 
@@ -83,13 +106,13 @@ export const ImagePreview = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border: 1.5px solid #ea8720;
+  border: 1.5px solid #349c98;
   border-radius: 6px;
 `;
 
 export const RegisterButton = styled.button`
   padding: 5px 20px 5px 20px;
-  color: #ea8720;
+  color: #349c98;
   font-size: 1rem;
   transition: 0.4s;
   background: transparent;
@@ -97,7 +120,7 @@ export const RegisterButton = styled.button`
   letter-spacing: 0.25em;
 
   &:hover {
-    background: #ea8720;
+    background: #349c98;
     color: #fff;
     border-radius: 5px;
   }

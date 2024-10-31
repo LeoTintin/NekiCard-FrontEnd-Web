@@ -6,6 +6,9 @@ import {
   PerfilPublicContent,
   PerfilPublicHeader,
   PerfilBackButton,
+  Name,
+  ProfileNotFound,
+  ProfileNotFoundContainer,
 } from "./styles";
 import { ArrowLeft } from "phosphor-react";
 import PerfilCard from "../../Components/PerfilCard";
@@ -14,7 +17,7 @@ import Tittle from "../../Components/Tittle";
 export default function PerfilPublic() {
   const { id } = useParams();
   const [specificPerfil, setSpecificPerfil] = useState(null);
-  const [refresh, setRefresh] = useState(false)
+  const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,23 +36,7 @@ export default function PerfilPublic() {
     }
 
     fetchPerfil();
-  }, [id]);
-
-  if (!specificPerfil) {
-    return (
-      <p
-        style={{
-          textAlign: "center",
-          color: "#ea8720",
-          fontWeight: "bold",
-          fontSize: "1.6rem",
-          marginTop: 170,
-        }}
-      >
-        Perfil não encontrado...
-      </p>
-    );
-  }
+  }, [id, refresh]);
 
   const refetch = () => setRefresh((prev) => !prev);
 
@@ -57,10 +44,22 @@ export default function PerfilPublic() {
     navigate("/perfil");
   };
 
+  if (!specificPerfil) {
+    return (
+      <ProfileNotFoundContainer>
+        <PerfilBackButton onClick={handleBackButtonClick}>
+          <ArrowLeft size={32} />
+        </PerfilBackButton>
+        <ProfileNotFound>Perfil não encontrado...</ProfileNotFound>
+      </ProfileNotFoundContainer>
+    );
+  }
+
   return (
     <PerfilPublicContainer>
       <PerfilPublicHeader>
-        <Tittle>Perfil: {specificPerfil.nome} </Tittle>
+        <Tittle>Perfil:</Tittle>
+        <Name>{specificPerfil.nome}</Name>
         <PerfilBackButton onClick={handleBackButtonClick}>
           <ArrowLeft size={32} />
         </PerfilBackButton>
