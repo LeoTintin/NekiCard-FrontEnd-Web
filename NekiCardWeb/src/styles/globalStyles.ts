@@ -2,10 +2,8 @@ import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
 html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background: #deddc2;
+
+    background: #edf3f2;
   }
 
   button{

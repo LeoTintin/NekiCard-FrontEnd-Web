@@ -7,59 +7,43 @@ export const LoginContainer = styled.div`
   width: 400px;
   padding: 40px;
   transform: translate(-50%, -50%);
-  background: #ece8cb;
+  background: #fff;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   box-sizing: border-box;
 `;
 
-export const LoginTitle = styled.h2`
-  margin: 0 0 30px;
-  padding: 0;
-  color: #ea8720;
-  text-align: center;
+export const LoginWrapper = styled.div`
+  position: relative;
+`;
+
+export const InputIcon = styled.div`
+  position: absolute;
+  margin-left: 18rem;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 40%;
 `;
 
 export const LoginInput = styled.input`
   width: 100%;
   padding: 10px 0;
   font-size: 16px;
-  color: #ea8720;
+  color: #349c98;
+  margin-top: 30px;
   margin-bottom: 30px;
   border: none;
   background: transparent;
-  border-bottom: 1px solid #deddc2;;
+  border-bottom: 1px solid #9d9c9a;
   outline: none;
 
   &:focus {
-    border-bottom: 1px solid #ea8720;
+    border-bottom: 1px solid #349c98;
   }
 `;
 
-
 export const ErrorSpam = styled.span`
-color: red;
-background: none;
-border: none;
-`
-
-
-export const LoginButton = styled.button`
-  position: relative;
-  display: inline-block;
-  padding: 10px 20px;
-  color: #ea8720;
-  font-size: 16px;
-  transition: 0.4s;
-  margin-top: 30px;
-  background: transparent;
+  color: red;
+  background: none;
   border: none;
-  cursor: pointer;
-  letter-spacing: 4px;
-
-  &:hover {
-    background: #ea8720;
-    color: #fff;
-    border-radius: 5px;
-  }
 `;

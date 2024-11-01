@@ -1,19 +1,32 @@
 import { useNavigate } from "react-router-dom";
+
 import {
   ResgisterContainer,
-  ResgisterTitle,
   ResgisterInput,
-  RegisterButton,
   NameFormInput,
   NameResgisterInput,
   ErrorSpam,
+  FileInputContainer,
+  HiddenFileInput,
+  IconButton,
+  RegisterFooter,
+  ImagePreview,
+  RegisterButton,
+  RegisterHeader,
+  GoBackButton,
 } from "./styles";
+
 import { z } from "zod";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { api } from "../../service/api";
+import { ArrowLeft, Camera } from "phosphor-react";
+import Tittle from "../../Components/Tittle";
+import { toast } from "react-toastify";
 
 const CreateUserFormSchema = z.object({
+
   nome: z
     .string()
     .nonempty("Nome é obrigatório!")
@@ -21,32 +34,44 @@ const CreateUserFormSchema = z.object({
       return nome
         .trim()
         .split(" ")
-        .map((word) => word[0].toLocaleUpperCase() + word.substring(1))
+        .map((word) => word[0].toUpperCase() + word.substring(1))
         .join(" ");
     }),
-
   email: z
     .string()
     .nonempty("E-mail obrigatório!")
     .email("Formato de e-mail inválido!")
-    .endsWith("@neki-it.com.br", "O e-mail deve terminar com @neki-it.com.br"),
-
+    .refine(
+      (email) =>
+        email.endsWith("@neki-it.com.br") || email.endsWith("@neki.com.br"),
+      {
+        message: "O e-mail deve terminar com @neki-it.com.br ou @neki.com.br",
+      }
+    ),
   birthDate: z.string().refine(
     (value) => {
       const date = new Date(value);
       return !isNaN(date.getTime());
     },
     {
-      message: "Por favor, insira uma data válida",
+      message: "Por favor, insira uma data válida!",
     }
   ),
+
+  nomeSocial: z.string().optional(),
+  telefone: z.string().optional(),
+  redeSocial: z.string().optional(),
+
 });
 
 type CreateUserFormData = z.infer<typeof CreateUserFormSchema>;
 
 export default function Register() {
-  const [output, setOutput] = useState("");
+
   const [loading, setLoading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
   const navigate = useNavigate();
 
   const {
@@ -57,20 +82,114 @@ export default function Register() {
     resolver: zodResolver(CreateUserFormSchema),
   });
 
-  function criarPerfil(data: CreateUserFormData) {
-    setLoading(true);
-    setOutput(JSON.stringify(data, null, 2));
+  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
 
-    setTimeout(() => {
-      alert("Perfil criado com sucesso!");
-      navigate("/home");
-      setLoading(false);
-    }, 1000); // Simulando um delay
+    const file = event.target.files?.[0] || null;
+    setSelectedFile(file);
+
+    if (file) {
+      const fileUrl = URL.createObjectURL(file);
+      setPreviewUrl(fileUrl);
+    } else {
+      setPreviewUrl(null);
+    }
   }
 
+  function criarPerfil(data: CreateUserFormData) {
+
+    const formData = new FormData();
+    formData.append("nome", data.nome);
+    formData.append("email", data.email);
+    formData.append("nomeSocial", data.nomeSocial || "");
+    formData.append("dataNascimento", data.birthDate);
+    formData.append("telefone", data.telefone || "");
+    formData.append("redeSocial", data.redeSocial || "");
+
+    if (selectedFile) {
+      formData.append("foto", selectedFile);
+    }
+
+    if (!selectedFile) {
+      toast.error("Foto de perfil é obrigatorio", {
+        position: "top-right",
+        autoClose: 1700,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    const token = localStorage.getItem("token");
+    api
+      .post("/perfil", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        toast.success("Perfil criado com sucesso!", {
+          position: "top-right",
+          autoClose: 1700,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        navigate("/perfil");
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 409) {
+          toast.error("Este e-mail já está em uso!", {
+            position: "top-right",
+            autoClose: 1700,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        } else {
+          toast.error("Erro ao criar usuário. Credenciais invalidas", {
+            position: "top-right",
+            autoClose: 1700,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
+
+  const handleBackButtonClick = () => {
+    navigate("/perfil");
+  };
+
   return (
+
     <ResgisterContainer>
-      <ResgisterTitle>Novo Perfil</ResgisterTitle>
+
+      <RegisterHeader>
+        <Tittle>Novo Perfil</Tittle>
+        <GoBackButton onClick={handleBackButtonClick}>
+          <ArrowLeft size={32} />
+        </GoBackButton>
+      </RegisterHeader>
+
       <form onSubmit={handleSubmit(criarPerfil)}>
         <NameFormInput>
           <NameResgisterInput
@@ -78,7 +197,11 @@ export default function Register() {
             placeholder="Nome *"
             {...register("nome")}
           />
-          <NameResgisterInput type="text" placeholder="Nome Social" />
+          <NameResgisterInput
+            type="text"
+            placeholder="Nome Social"
+            {...register("nomeSocial")}
+          />
         </NameFormInput>
         {errors.nome && <ErrorSpam>{errors.nome.message}</ErrorSpam>}
 
@@ -96,14 +219,43 @@ export default function Register() {
         />
         {errors.birthDate && <ErrorSpam>{errors.birthDate.message}</ErrorSpam>}
 
-        <ResgisterInput type="text" placeholder="Telefone" />
+        <ResgisterInput
+          type="text"
+          placeholder="Telefone"
+          {...register("telefone")}
+        />
 
-        <ResgisterInput type="text" placeholder="Rede Social" />
+        <ResgisterInput
+          type="text"
+          placeholder="Rede Social"
+          {...register("redeSocial")}
+        />
 
-        <RegisterButton type="submit" disabled={loading}>
-          {loading ? "Carregando..." : "Criar Perfil"}
-        </RegisterButton>
+        <FileInputContainer>
+          <HiddenFileInput
+            type="file"
+            id="file"
+            onChange={handleFileChange}
+            accept="image/*"
+          />
+          <IconButton
+            type="button"
+            onClick={() => document.getElementById("file").click()}
+          >
+            {previewUrl ? (
+              <ImagePreview src={previewUrl} alt="Pré-visualização da foto" />
+            ) : (
+              <Camera size={32} color="#349c98" />
+            )}
+          </IconButton>
+          <RegisterFooter>
+            <RegisterButton type="submit" disabled={loading}>
+              {loading ? "Carregando..." : "Criar Perfil"}
+            </RegisterButton>
+          </RegisterFooter>
+        </FileInputContainer>
       </form>
+
     </ResgisterContainer>
   );
 }

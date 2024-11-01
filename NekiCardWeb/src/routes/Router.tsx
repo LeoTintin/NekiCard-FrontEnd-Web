@@ -1,14 +1,32 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "../Pages/Login";
-import Home from "../Pages/Home";
+import Perfil from "../Pages/Perfil";
 import Register from "../Pages/Register";
+import PerfilPublic from "../Pages/PerfilPublic";
+import { useAuth } from "../hooks/useAuth";
 
 export const Router = () => {
+  const { isAuthenticated } = useAuth();
+
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/register" element={<Register />} />
+
+      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="/login" element={<Login />} />
+      <Route
+        path="/perfil"
+        element={
+          isAuthenticated ? <Perfil /> : <Navigate to="/login" replace />
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          isAuthenticated ? <Register /> : <Navigate to="/login" replace />
+        }
+      />
+      <Route path="/perfil/:id" element={<PerfilPublic />} />
+      
     </Routes>
   );
 };
