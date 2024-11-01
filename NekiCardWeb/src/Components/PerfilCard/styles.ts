@@ -15,13 +15,18 @@ export const PerfilCardContainer = styled.div`
 `;
 
 export const PerfilId = styled.p`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 15px;
+  height: 15px;
   color: #349c98;
   background-color: #fff;
   border: solid 1px #349c98;
   font-size: 13px;
   font-weight: bold;
   padding: 10px;
-  border-radius: 50%;
+  border-radius: 50px;
   margin-top: -0.8rem;
   margin-right: 17rem;
   z-index: 1;
@@ -138,7 +143,8 @@ export const ModalOverlay = styled.div`
 `;
 
 export const ModalContent = styled.div`
-  height: 85%;
+  height: auto;
+  max-height: 85vh;
   background: #fff;
   border-radius: 10px;
   padding: 2rem;
@@ -147,6 +153,16 @@ export const ModalContent = styled.div`
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 570px) {
+    width: 90%;
+    max-height: 80vh;
+    padding: 1rem;
+  }
+
+  @media (max-width: 985px) {
+    width: 80%;
+  }
 `;
 
 export const ModalHeader = styled.div`
@@ -190,6 +206,10 @@ export const ModalBody = styled.div`
       color: #403937;
     }
   }
+
+  @media (max-width: 570px) {
+    gap: 0.5rem;
+  }
 `;
 
 export const ModalFooter = styled.div`
@@ -202,10 +222,10 @@ export const ModalFooter = styled.div`
     color: #349c98;
     font-size: 16px;
     transition: 0.4s;
-    margin-top: 30px;
+    margin-top: 20px;
     background: transparent;
     border: none;
-    letter-spacing: 4px;
+    letter-spacing: 2px;
 
     &:hover {
       background: #349c98;
@@ -214,9 +234,11 @@ export const ModalFooter = styled.div`
     }
   }
 `;
+
 export const FileInputContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 `;
 
 export const IconButton = styled.button`
@@ -230,7 +252,7 @@ export const IconButton = styled.button`
 `;
 
 export const ImagePreview = styled.img`
-  height: 100%;
+  height: auto;
   width: 100%;
   border-radius: 6px;
   border: 1px solid #349c98;

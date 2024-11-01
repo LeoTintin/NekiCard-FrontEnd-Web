@@ -22,7 +22,7 @@ export const LoadingContainer = styled.div`
 `;
 
 export const Loading = styled.div`
-margin-top: 15rem;
+  margin-top: 15rem;
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
@@ -34,6 +34,24 @@ margin-top: 15rem;
     to {
       transform: rotate(360deg);
     }
+  }
+`;
+
+export const SearchWrapper = styled.div`
+  position: relative;
+`;
+
+export const SearchIcon = styled.div`
+  position: absolute;
+  margin-left: 12.4rem;
+  top: 50%;
+
+  @media (max-width: 415px) {
+    margin-left: 18rem;
+  }
+
+  @media (max-width: 380px) {
+    margin-left: 17rem;
   }
 `;
 
@@ -55,6 +73,16 @@ export const SearchInput = styled.input`
 
   &::placeholder {
     color: #403937;
+  }
+
+  @media (max-width: 415px) {
+    margin-left: 3.3rem;
+    width: 67%;
+  }
+
+  @media (max-width: 390px) {
+    margin-left: 2.4rem;
+    width: 74%;
   }
 `;
 

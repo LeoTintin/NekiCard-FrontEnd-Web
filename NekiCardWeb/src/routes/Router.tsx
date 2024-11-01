@@ -10,6 +10,7 @@ export const Router = () => {
 
   return (
     <Routes>
+
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<Login />} />
       <Route
@@ -25,6 +26,7 @@ export const Router = () => {
         }
       />
       <Route path="/perfil/:id" element={<PerfilPublic />} />
+      
     </Routes>
   );
 };

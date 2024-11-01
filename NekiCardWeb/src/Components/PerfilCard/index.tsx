@@ -1,6 +1,7 @@
 import { Camera, NotePencil, Trash } from "phosphor-react";
 import { useState } from "react";
 import { api } from "../../service/api";
+
 import {
   ButtonsContainer,
   CloseButton,
@@ -25,6 +26,7 @@ import {
   RedeSocial,
   TelephoneNumber,
 } from "./styles";
+
 import Button from "../Button";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -80,9 +82,8 @@ export default function PerfilCard({ perfil, refetch }) {
           progress: undefined,
           theme: "dark",
         });
-        refetch();
+        navigation("/perfil");
       } catch (error) {
-        console.error("Erro ao deletar perfil!", error);
         toast.error("Erro ao deletar perfil", {
           position: "top-right",
           autoClose: 1700,
@@ -106,14 +107,23 @@ export default function PerfilCard({ perfil, refetch }) {
         theme: "dark",
       });
     }
+    refetch();
   };
 
   const handleEdit = async () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("Token não encontrado. Faça login novamente.");
-      console.warn("Token não encontrado ao tentar editar perfil.");
+      toast.error("Usuario não encontrado", {
+        position: "top-right",
+        autoClose: 1700,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       return;
     }
 
@@ -151,7 +161,6 @@ export default function PerfilCard({ perfil, refetch }) {
       setIsModalOpen(false);
       refetch();
     } catch (error) {
-      console.error("Erro ao atualizar perfil!", error);
       toast.error("Erro ao atualizar perfil.", {
         position: "top-right",
         autoClose: 1700,
@@ -172,27 +181,25 @@ export default function PerfilCard({ perfil, refetch }) {
   return (
     <PerfilCardContainer>
       <PerfilRedirectButton onClick={() => navigation(`/perfil/${perfil.id}`)}>
-        <PerfilId>{perfil.id} </PerfilId>
+        <PerfilId>{perfil.id}</PerfilId>
       </PerfilRedirectButton>
+
       <PerfilRedirectButton onClick={() => navigation(`/perfil/${perfil.id}`)}>
         <PerfilImage src={imgSrc} alt="Foto de Perfil" />
       </PerfilRedirectButton>
+
       <PerfilEmail>{perfil.email}</PerfilEmail>
+
       <PerfilName>{perfil.nome}</PerfilName>
-      <PerfilSocialName>
-        {perfil.nomeSocial || "Nome social não informado"}
-      </PerfilSocialName>
-      <DataNascimento>
-        {perfil.dataNascimento
-          ? formatDate(perfil.dataNascimento)
-          : "Data de nascimento não informada"}
-      </DataNascimento>
-      <TelephoneNumber>
-        {perfil.telefone || "Telefone não informado"}
-      </TelephoneNumber>
-      <RedeSocial>
-        {perfil.redeSocial || "Rede social não informada"}
-      </RedeSocial>
+
+      <PerfilSocialName>{perfil.nomeSocial || "..."}</PerfilSocialName>
+
+      <DataNascimento>{formatDate(perfil.dataNascimento)}</DataNascimento>
+
+      <TelephoneNumber>{perfil.telefone || "..."}</TelephoneNumber>
+
+      <RedeSocial>{perfil.redeSocial || "..."}</RedeSocial>
+
       <ButtonsContainer>
         <PerfilButton onClick={() => setIsModalOpen(true)}>
           <NotePencil size={22} />
@@ -201,6 +208,7 @@ export default function PerfilCard({ perfil, refetch }) {
           <Trash size={22} />
         </PerfilButton>
       </ButtonsContainer>
+
       {isModalOpen && (
         <ModalOverlay>
           <ModalContent>

@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import {
-  Container,
   HomeContainer,
   Loading,
   LoadingContainer,
   PerfilList,
+  SearchIcon,
   SearchInput,
-  UserNotFound,
+  SearchWrapper,
 } from "./styles";
+
 import PerfilCard from "../../Components/PerfilCard";
 import { api } from "../../service/api";
 import Button from "../../Components/Button";
 import Tittle from "../../Components/Tittle";
 import { MagnifyingGlass } from "phosphor-react";
+import { toast } from "react-toastify";
 
 export default function Home() {
+
   const navigate = useNavigate();
   const [perfis, setPerfis] = useState([]);
   const [refresh, setRefresh] = useState(false);
@@ -27,7 +31,16 @@ export default function Home() {
       try {
         const token = localStorage.getItem("token");
         if (!token) {
-          console.error("Token não encontrado.");
+          toast.error("Usuario não encontrado", {
+            position: "top-right",
+            autoClose: 1700,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
           return;
         }
 
@@ -35,10 +48,18 @@ export default function Home() {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        console.log(response.data);
         setPerfis(response.data);
       } catch (error) {
-        console.error("Erro ao buscar perfis:", error);
+        toast.error("Erro ao buscar perfis", {
+          position: "top-right",
+          autoClose: 1700,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       } finally {
         setLoading(false);
       }
@@ -54,11 +75,13 @@ export default function Home() {
   };
 
   if (loading) {
+
     return (
       <LoadingContainer>
         <Loading></Loading>
       </LoadingContainer>
     );
+
   }
 
   const filterPerfil = perfis?.filter((perfil) =>
@@ -66,16 +89,23 @@ export default function Home() {
   );
 
   return (
+
     <HomeContainer>
-      <Tittle>Perfis</Tittle>
-      <SearchInput
-        type="text"
-        placeholder="Pesquisar"
-        value={search}
-        onChange={handleSearchChange}
-        className="cozinhaSearchInput"
-      />
-      <MagnifyingGlass size={22} color="#349c98" />
+      <SearchWrapper>
+        <Tittle>Perfis</Tittle>
+        <SearchInput
+          type="text"
+          placeholder="Pesquisar"
+          value={search}
+          onChange={handleSearchChange}
+          className="cozinhaSearchInput"
+        />
+
+        <SearchIcon>
+          <MagnifyingGlass size={22} color="#349c98" />
+        </SearchIcon>
+      </SearchWrapper>
+
       <PerfilList>
         {filterPerfil && filterPerfil.length > 0 ? (
           <>
@@ -87,6 +117,7 @@ export default function Home() {
           <Tittle>Nenhum perfil encontrado</Tittle>
         )}
       </PerfilList>
+      
       <Button onClick={() => navigate("/register")}>Novo Perfil</Button>
     </HomeContainer>
   );

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+
 import {
   LoginContainer,
   LoginInput,
@@ -6,6 +7,7 @@ import {
   LoginWrapper,
   InputIcon,
 } from "./styles";
+
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,6 +20,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { EnvelopeSimple, Eye, EyeClosed } from "phosphor-react";
 
 const LogInUserFormSchema = z.object({
+
   email: z
     .string()
     .nonempty("E-mail é obrigatório!")
@@ -31,11 +34,13 @@ const LogInUserFormSchema = z.object({
     ),
 
   senha: z.string().min(6, "Senha curta, insira pelo menos 6 caracteres!"),
+
 });
 
 type LogInUserFormData = z.infer<typeof LogInUserFormSchema>;
 
 export default function Login() {
+
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -52,6 +57,7 @@ export default function Login() {
 
   async function logIn(data: LogInUserFormData) {
     try {
+
       const response = await api.post("/auth/login", data);
 
       const token = response.data.token;
@@ -67,6 +73,7 @@ export default function Login() {
           draggable: true,
           theme: "light",
         });
+
         setOutput(JSON.stringify(data, null, 2));
         navigate("/perfil");
       } else {
@@ -86,10 +93,6 @@ export default function Login() {
         theme: "dark",
       });
       setErrorMessage("");
-      console.error(
-        "Erro ao logar usuário. Verifique os dados e tente novamente",
-        error
-      );
     }
   }
 
@@ -98,6 +101,7 @@ export default function Login() {
   };
 
   return (
+
     <LoginContainer>
       <Tittle>Login</Tittle>
       <form>
@@ -126,6 +130,7 @@ export default function Login() {
           {loading ? "Carregando..." : "Entrar"}
         </Button>
       </form>
+      
     </LoginContainer>
   );
 }

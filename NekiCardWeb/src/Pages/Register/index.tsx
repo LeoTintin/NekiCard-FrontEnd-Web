@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+
 import {
   ResgisterContainer,
   ResgisterInput,
@@ -14,6 +15,7 @@ import {
   RegisterHeader,
   GoBackButton,
 } from "./styles";
+
 import { z } from "zod";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,7 +24,9 @@ import { api } from "../../service/api";
 import { ArrowLeft, Camera } from "phosphor-react";
 import Tittle from "../../Components/Tittle";
 import { toast } from "react-toastify";
+
 const CreateUserFormSchema = z.object({
+
   nome: z
     .string()
     .nonempty("Nome é obrigatório!")
@@ -53,17 +57,21 @@ const CreateUserFormSchema = z.object({
       message: "Por favor, insira uma data válida!",
     }
   ),
+
   nomeSocial: z.string().optional(),
   telefone: z.string().optional(),
   redeSocial: z.string().optional(),
+
 });
 
 type CreateUserFormData = z.infer<typeof CreateUserFormSchema>;
 
 export default function Register() {
+
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
   const navigate = useNavigate();
 
   const {
@@ -75,6 +83,7 @@ export default function Register() {
   });
 
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+
     const file = event.target.files?.[0] || null;
     setSelectedFile(file);
 
@@ -87,7 +96,6 @@ export default function Register() {
   }
 
   function criarPerfil(data: CreateUserFormData) {
-    setLoading(true);
 
     const formData = new FormData();
     formData.append("nome", data.nome);
@@ -112,7 +120,10 @@ export default function Register() {
         progress: undefined,
         theme: "dark",
       });
+      return;
     }
+
+    setLoading(true);
 
     const token = localStorage.getItem("token");
     api
@@ -135,17 +146,29 @@ export default function Register() {
         navigate("/perfil");
       })
       .catch((error) => {
-        console.error(error);
-        toast.error("Erro ao criar usuário. Credenciais invalidas", {
-          position: "top-right",
-          autoClose: 1700,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
+        if (error.response && error.response.status === 409) {
+          toast.error("Este e-mail já está em uso!", {
+            position: "top-right",
+            autoClose: 1700,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        } else {
+          toast.error("Erro ao criar usuário. Credenciais invalidas", {
+            position: "top-right",
+            autoClose: 1700,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -157,13 +180,16 @@ export default function Register() {
   };
 
   return (
+
     <ResgisterContainer>
+
       <RegisterHeader>
         <Tittle>Novo Perfil</Tittle>
         <GoBackButton onClick={handleBackButtonClick}>
           <ArrowLeft size={32} />
         </GoBackButton>
       </RegisterHeader>
+
       <form onSubmit={handleSubmit(criarPerfil)}>
         <NameFormInput>
           <NameResgisterInput
@@ -229,6 +255,7 @@ export default function Register() {
           </RegisterFooter>
         </FileInputContainer>
       </form>
+
     </ResgisterContainer>
   );
 }

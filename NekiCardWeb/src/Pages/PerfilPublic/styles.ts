@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const PerfilPublicContainer = styled.div`
-  width: 100%;
   max-width: 70rem;
   margin-left: auto;
   margin-right: auto;
@@ -22,6 +21,21 @@ export const ProfileNotFound = styled.p`
   margin-top: 10rem;
 `;
 
+export const PerfilPublicHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+
+  @media (max-width: 1067px) {
+    margin-left: 5%;
+    margin-top: 15%;
+  }
+
+  @media (max-width: 915px) {
+    margin-top: 20%;
+  }
+`;
+
 export const PerfilPublicContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -35,11 +49,10 @@ export const PerfilPublicContent = styled.div`
     margin-top: 1rem;
     border-radius: 8px;
   }
-`;
 
-export const PerfilPublicHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
+  @media (max-width: 915px) {
+    margin-top: 30%;
+  }
 `;
 
 export const Name = styled.h2`
